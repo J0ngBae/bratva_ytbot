@@ -3,7 +3,7 @@ FROM python:3.10.12-alpine
 RUN apk add python3
 
 COPY main.py .
-COPY yt_util.py
+COPY yt_util.py .
 COPY cogs .
 COPY config.py .
 COPY requirements.txt .
