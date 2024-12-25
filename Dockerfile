@@ -1,6 +1,6 @@
 FROM python:3.10.12-alpine
 
-RUN apk add python3
+RUN apk add --no-cache python3-dev gcc ffmpeg opus-dev musl-dev
 
 COPY main.py .
 COPY yt_util.py .
