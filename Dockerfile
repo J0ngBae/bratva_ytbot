@@ -7,6 +7,7 @@ COPY yt_util.py .
 COPY cogs .
 COPY config.py .
 COPY requirements.txt .
+COPY local_music .
 
 RUN pip install -r requirements.txt
 RUN ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
