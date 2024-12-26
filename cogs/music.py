@@ -114,7 +114,7 @@ class Music(commands.Cog):
         embed.set_image(url=thumb_url)
         embed.set_footer(text=f"{username}'s request", icon_url=user_avatar)
 
-        await res.edit(embed=embed)
+        await res.edit(content="", embed=embed)
 
         if not self.is_playing and not ctx.voice_client.is_paused():
             await self.play_next(ctx)
