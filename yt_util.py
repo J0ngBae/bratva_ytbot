@@ -11,6 +11,10 @@ FFMPEG_OPTIONS = {
     'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
     'options': '-vn',
 }
+
+FFMPEG_OPTIONS_LOCAL = {
+    'options': '-vn',
+}
 THUMBNAIL_PARSE = 'https://i.ytimg.com/vi/'
 
 ydl_opts = {
@@ -65,3 +69,7 @@ class YTDLSource(discord.PCMVolumeTransformer):
         #print(data)
         filename = data["url"] if stream else ytdl.prepare_filename(data)
         return cls(discord.FFmpegPCMAudio(filename, **FFMPEG_OPTIONS), data=data), data['title'], data['duration_string'], thumb_url
+    
+    @classmethod
+    async def from_local(cls, path, *, loop=None, stream=False):
+        return discord.FFmpegPCMAudio(source=path, **FFMPEG_OPTIONS_LOCAL)

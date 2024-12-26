@@ -10,6 +10,7 @@ import asyncio
 
 sys.path.append("..")
 music_queue = []
+KORN_TWIST = "korn - twist"
 
 class Music(commands.Cog):
     def __init__(self, bot):
@@ -51,6 +52,33 @@ class Music(commands.Cog):
 
             await ctx.respond(embed=embed)
     
+    @slash_command(guild_ids=[config.GUILD_ID,], name="korn", description="OMG Korn")
+    async def korn(self, ctx):
+        global music_queue
+        isUserinVoice = ctx.user.voice
+
+        if isUserinVoice == None:   # user가 voice 채널에 있는지 확인
+            return await ctx.respond(f"❌ {ctx.user.mention} is not in Voice Channel")
+        
+        if not self.is_join:    # 봇이 voice 채널에 있는지 확인
+            await ctx.author.voice.channel.connect()
+            self.is_join = True
+        
+        embed = Embed(
+            title="🌽🌽🌽🌽 **Oh My God It's Korn** 🌽🌽🌽🌽",
+            color=Colour.dark_gray()
+        )
+
+        await ctx.respond(embed=embed)
+            
+        player = await yt_util.YTDLSource.from_local("./local_music/korn_twist.mp3")       
+        await self.queue.put(player)
+        position = self.queue.qsize()
+        music_queue.append(KORN_TWIST)
+
+        if not self.is_playing and not ctx.voice_client.is_paused():
+            await self.play_next(ctx)
+    
     @slash_command(guild_ids=[config.GUILD_ID,], name="play", description="play music")
     async def play(self, ctx, url=Option(str, description="YouTube URL", required=True)):
         global music_queue
@@ -60,6 +88,10 @@ class Music(commands.Cog):
 
         if isUserinVoice == None:   # user가 voice 채널에 있는지 확인
             return await ctx.respond(f"❌ {ctx.user.mention} is not in Voice Channel")
+        
+        if not self.is_join:    # 봇이 voice 채널에 있는지 확인
+            await ctx.author.voice.channel.connect()
+            self.is_join = True
         
         res = await ctx.respond(f"🔄 Pull Music From Youtube...")
     
@@ -82,11 +114,7 @@ class Music(commands.Cog):
         embed.set_image(url=thumb_url)
         embed.set_footer(text=f"{username}'s request", icon_url=user_avatar)
 
-        await res.edit(content=f'✅ Pull Complete!', embed=embed)
-
-        if not self.is_join:    # 봇이 voice 채널에 있는지 확인
-            await ctx.author.voice.channel.connect()
-            self.is_join = True
+        await res.edit(embed=embed)
 
         if not self.is_playing and not ctx.voice_client.is_paused():
             await self.play_next(ctx)

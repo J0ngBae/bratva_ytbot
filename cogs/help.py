@@ -22,6 +22,7 @@ class Help(commands.Cog):
         embed.add_field(name="/play", value=help_info.PLAY_INFO, inline=False)
         embed.add_field(name="/skip", value=help_info.SKIP_INFO, inline=False)
         embed.add_field(name="/stop", value=help_info.STOP_INFO, inline=False)
+        embed.add_field(name="/korn", value=help_info.KORN_INFO, inline=False)
         embed.set_author(name="Sining in the Bratva", icon_url=author_avatar)
 
         await ctx.respond(embed=embed)

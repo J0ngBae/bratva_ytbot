@@ -12,3 +12,7 @@ STOP_INFO = '''
 - 현재 재생중인 노래를 중지하고 대기열에 있는 모든 노래를 제거합니다.
 - ex) /stop\n
 '''
+
+KORN_INFO = '''
+Oh My God It's Korn 🌽
+'''
